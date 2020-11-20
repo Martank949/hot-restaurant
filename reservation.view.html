@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reservation Page</title>
+    <!-- Latest compiled and minified CSS & JS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron">
+
+            <h1>Hot Restaurant</h1>
+            <h3>Current Reservations and Waiting List</h3>
+            <hr>
+            <a href="/reservation/add"><button class="btn btn-danger btn-lg"><span
+            class="far fa-credit-card"></span> Make Reservations</button></a>
+            <a href="/reservation/add"><button class="btn btn-danger btn-lg"><span
+            class="far fa-credit-card"></span> Home</button></a>
+        </div>
+        <div class="card" style="width: 18rem;">
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.get("/api/reservation/tables", function(data) {
+                console.log(data);
+                if (data) {
+                    data.map(function(d) {
+                        let card = $('.card');
+                        let ul = card.append("<ul>");
+                        ul.append(`<li>name: ${d.name}</li>`)
+                        ul.append(`<li>Phone: ${d.phoneNumber}</li>`)
+                        ul.append(`<li>ID: ${d.id}</li>`)
+                        ul.append(`<li>Email Address: ${d.email}</li>`)
+                    })
+                } else {
+                    $("#name").text(
+                        "The force is not strong with this one. Your character was not found.");
+                    $("#stats").hide();
+                }
+            });
+            $.get("/api/reservation/waitList", function(data) {
+                console.log(data);
+                if (data) {
+                    $(".card").append("<h1> Wait list </h1>")
+                    data.map(function(d) {
+                        let card = $('.card');
+                        let ul = card.append("<ul>");
+                        ul.append(`<li>name: ${d.name}</li>`)
+                        ul.append(`<li>Phone: ${d.phoneNumber}</li>`)
+                        ul.append(`<li>ID: ${d.id}</li>`)
+                        ul.append(`<li>Email Address: ${d.email}</li>`)
+                    })
+                } else {
+                    $("#name").text(
+                        "The force is not strong with this one. Your character was not found.");
+                    $("#stats").hide();
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
